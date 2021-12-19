@@ -1,15 +1,52 @@
-import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
 import TotalArea from './src/pages/main/totalArea';
+import DescriptionArea from './src/pages/main/DescriptionArea';
+
+const getTransactions = () => {
+  return new Promise((resolve, reject) =>
+    setTimeout(
+      () =>
+        resolve([
+          {
+            value: 100,
+            type: 'debit',
+          },
+          {
+            value: 100,
+            type: 'credit',
+          },
+          {
+            value: 100,
+            type: 'credit',
+          },
+        ]),
+      200,
+    ),
+  );
+};
 
 const App = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    getTransactions().then(transactions => {
+      setTransactions(transactions);
+      setIsLoading(false);
+    });
+  }, []);
+
   return (
     <View style={styles.contentArea}>
       <SafeAreaView style={styles.appContainer}>
         <View style={styles.totalContainer}>
           <TotalArea />
         </View>
-        <View style={styles.bodyContainer} />
+        <View style={styles.bodyContainer}>
+          <DescriptionArea transactions={transactions} />
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -25,8 +62,7 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     flex: 7,
-    borderColor: 'blue',
-    borderWidth: 1,
+    paddingHorizontal: 20,
   },
 });
 

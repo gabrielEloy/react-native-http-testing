@@ -6,7 +6,7 @@ const Button = props => {
   const buttonStyle = [styles.container, props.buttonStyle];
   const newprops = {...props};
 
-  if(typeof props.children === 'string'){
+  if (typeof props.children === 'string') {
     newprops.children = <Text style={styles.text}>{props.children}</Text>;
   }
 

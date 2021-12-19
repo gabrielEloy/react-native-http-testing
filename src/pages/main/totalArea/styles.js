@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../themes/main';
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,14 +12,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    paddingHorizontal: 40
+    paddingHorizontal: 40,
   },
   total: {
-      fontSize: 28,
-      color: '#FBFBFB',
+    fontSize: 28,
+    color: COLORS.light,
   },
   totalDesc: {
     fontSize: 16,
-    color: '#FBFBFB',
-  }
+    color: COLORS.gray,
+  },
 });

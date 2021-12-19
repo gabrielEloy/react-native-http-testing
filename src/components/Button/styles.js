@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   text: {
-    color: '#FBFBFB'
-  }
+    color: '#FBFBFB',
+  },
 });
 
 export default styles;
