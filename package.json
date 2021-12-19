@@ -3,14 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "concurrently \"react-native run-android\" \"npm:server\"",
+    "ios": "concurrently \"react-native run-ios\" \"npm:server\"",
     "start": "react-native start",
+    "server": "json-server --watch db.json",
     "test": "jest",
     "lint": "eslint ."
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "concurrently": "^6.5.1",
     "json-server": "^0.17.0",
     "react": "17.0.2",
     "react-native": "0.66.4",
