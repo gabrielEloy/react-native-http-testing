@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 export const fetcher = async (...args) => {
-try {
+  try {
     const {data} = await axios(...args);
     return data;
-} catch (err){
-    console.log(err)
-}
+  } catch (err) {
+    console.log(err);
+  }
 };
