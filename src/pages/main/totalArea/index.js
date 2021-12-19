@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {styles} from './styles';
 import Button from '../../../components/Button';
-import {numberToCurrencyString} from '../../../helpers/currency';
+import {numberToCurrencyString} from '../../../services/currency';
 
 const TotalArea = ({total = 22000, addCredit, addDebit}) => {
   const formattedTotal = numberToCurrencyString(total);

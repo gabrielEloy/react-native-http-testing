@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles';
-import {numberToCurrencyString} from '../../helpers/currency';
+import {numberToCurrencyString} from '../../services/currency';
 import Button from '../Button';
 
 const Transaction = ({isDebit, value, style: propStyle, deleteTransaction}) => {
