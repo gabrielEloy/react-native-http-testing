@@ -30,6 +30,8 @@ const App = () => {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log({['process.env.API_BASE_URL']: process.env.API_BASE_URL})
+
   useEffect(() => {
     setIsLoading(true);
     getTransactions().then(transactions => {
