@@ -5,7 +5,7 @@ import styles from './styles';
 import {numberToCurrencyString} from '../../helpers/currency';
 import Button from '../Button';
 
-const Transaction = ({isDebit, value, style: propStyle}) => {
+const Transaction = ({isDebit, value, style: propStyle, deleteTransaction}) => {
   const formattedValue = numberToCurrencyString(value);
 
   const [gradientColors, valueStyle, descriptionString] = isDebit
@@ -28,7 +28,9 @@ const Transaction = ({isDebit, value, style: propStyle}) => {
         </Text>
       </View>
       <View style={styles.deleteContainer}>
-        <Button style={styles.deleteButton}>X</Button>
+        <Button onPress={deleteTransaction} style={styles.deleteButton}>
+          X
+        </Button>
       </View>
     </View>
   );

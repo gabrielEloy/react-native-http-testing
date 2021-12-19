@@ -2,10 +2,13 @@ import React from 'react';
 import {View} from 'react-native';
 import TransactionsList from '../../../components/TransactionsList';
 
-const DescriptionArea = ({transactions}) => {
+const DescriptionArea = ({transactions, deleteTransaction}) => {
   return (
     <View>
-      <TransactionsList transactions={transactions} />
+      <TransactionsList
+        deleteTransaction={deleteTransaction}
+        transactions={transactions}
+      />
     </View>
   );
 };

@@ -4,15 +4,15 @@ import {styles} from './styles';
 import Button from '../../../components/Button';
 import {numberToCurrencyString} from '../../../helpers/currency';
 
-const TotalArea = ({total = 22000}) => {
+const TotalArea = ({total = 22000, addCredit, addDebit}) => {
   const formattedTotal = numberToCurrencyString(total);
   return (
     <View style={styles.container}>
       <Text style={styles.totalDesc}>Total Value</Text>
       <Text style={styles.total}>{formattedTotal}</Text>
       <View style={styles.buttonsContainer}>
-        <Button>Add $100</Button>
-        <Button>Remove $100</Button>
+        <Button onPress={addCredit}>Add $100</Button>
+        <Button onPress={addDebit}>Remove $100</Button>
       </View>
     </View>
   );

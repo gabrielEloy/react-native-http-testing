@@ -1,53 +1,54 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, SafeAreaView} from 'react-native';
 import TotalArea from './src/pages/main/totalArea';
 import DescriptionArea from './src/pages/main/DescriptionArea';
+import useSWR, {useSWRConfig} from 'swr';
+import axios from 'axios';
 
-const getTransactions = () => {
-  return new Promise((resolve, reject) =>
-    setTimeout(
-      () =>
-        resolve([
-          {
-            value: 100,
-            type: 'debit',
-          },
-          {
-            value: 100,
-            type: 'credit',
-          },
-          {
-            value: 100,
-            type: 'credit',
-          },
-        ]),
-      200,
-    ),
-  );
-};
+const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 const App = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const urlPath = `${process.env.API_BASE_URL}transactions`;
+  const {data: transactions} = useSWR(urlPath, fetcher);
+  const {mutate} = useSWRConfig();
+  const total = transactions && transactions.reduce((acc, curr) => {
+    const value = curr.type === 'debit' ? -curr.value : curr.value;
 
-  console.log({['process.env.API_BASE_URL']: process.env.API_BASE_URL})
+    return acc + value
+  }, 0)
+  console.log({transactions})
 
-  useEffect(() => {
-    setIsLoading(true);
-    getTransactions().then(transactions => {
-      setTransactions(transactions);
-      setIsLoading(false);
-    });
-  }, []);
+  const addTransaction = async (value, isDebit) => {
+    const type = isDebit ? 'debit' : 'credit';
+    const transaction = {
+      value,
+      type,
+    };
+    await axios.post(urlPath, transaction);
+    mutate(urlPath);
+    return;
+  };
+
+  const deleteTransaction = async id => {
+    await axios.delete(`${urlPath}/${id}`);
+    mutate(urlPath);
+  };
 
   return (
     <View style={styles.contentArea}>
       <SafeAreaView style={styles.appContainer}>
         <View style={styles.totalContainer}>
-          <TotalArea />
+          <TotalArea
+            addDebit={() => addTransaction(100, true)}
+            addCredit={() => addTransaction(100, false)}
+            total={total}
+          />
         </View>
         <View style={styles.bodyContainer}>
-          <DescriptionArea transactions={transactions} />
+          <DescriptionArea
+            deleteTransaction={deleteTransaction}
+            transactions={transactions}
+          />
         </View>
       </SafeAreaView>
     </View>

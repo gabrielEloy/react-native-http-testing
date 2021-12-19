@@ -3,7 +3,7 @@ import {FlatList} from 'react-native';
 import Transaction from '../Transaction';
 import styles from './styles';
 
-const TransactionsList = ({transactions}) => {
+const TransactionsList = ({transactions, deleteTransaction}) => {
   const renderItem = ({item, index}) => {
     const isLastItem = index === transactions.length - 1;
     return (
@@ -11,6 +11,7 @@ const TransactionsList = ({transactions}) => {
         {...item}
         isDebit={item.type === 'debit'}
         style={isLastItem ? {} : styles.rowContainer}
+        deleteTransaction={() => deleteTransaction(item.id)}
       />
     );
   };

@@ -1,19 +1,29 @@
 {
-    "transactions": [
-        {
-            "id": "1",
-            "value": 100,
-            "type": "debit"
-          },
-          {
-            "id": "2",
-            "value": 100,
-            "type": "credit"
-          },
-          {
-            "id": "3",
-            "value": 100,
-            "type": "credit"
-          }
-    ]
+  "transactions": [
+    {
+      "value": 100,
+      "type": "credit",
+      "id": 1
+    },
+    {
+      "value": 100,
+      "type": "credit",
+      "id": 4
+    },
+    {
+      "value": 100,
+      "type": "debit",
+      "id": 5
+    },
+    {
+      "value": 100,
+      "type": "debit",
+      "id": 6
+    },
+    {
+      "value": 100,
+      "type": "credit",
+      "id": 7
+    }
+  ]
 }
