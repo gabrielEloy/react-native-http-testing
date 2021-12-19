@@ -4,19 +4,16 @@ import TotalArea from './src/pages/main/totalArea';
 import DescriptionArea from './src/pages/main/DescriptionArea';
 import useSWR, {useSWRConfig} from 'swr';
 import axios from 'axios';
-
-const fetcher = (...args) => fetch(...args).then(res => res.json());
+import {getTotal} from './src/services/balance';
+import {fetcher} from './src/services/network';
 
 const App = () => {
-  const urlPath = `${process.env.API_BASE_URL}transactions`;
+  const urlPath = `${process.env.API_BASE_URL}/transactions`;
   const {data: transactions} = useSWR(urlPath, fetcher);
   const {mutate} = useSWRConfig();
-  const total = transactions && transactions.reduce((acc, curr) => {
-    const value = curr.type === 'debit' ? -curr.value : curr.value;
-
-    return acc + value
-  }, 0)
-  console.log({transactions})
+  
+  const total = getTotal(transactions);
+  
 
   const addTransaction = async (value, isDebit) => {
     const type = isDebit ? 'debit' : 'credit';
