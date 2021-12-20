@@ -1,23 +1,23 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
 
-export function useTransactions() {
-  const basePath = process.env.API_BASE_URL;
-  const transactionsUrl = `${basePath}/transactions`;
+const basePath = process.env.API_BASE_URL;
+const transactionsUrl = `${basePath}/transactions`;
 
+export function useTransactions() {
   const [transactions, setTransactions] = useState([]);
 
-  const getTransactions = async () => {
+  const getTransactions = useCallback(async () => {
     const {data} = await axios.get(transactionsUrl);
 
     return data;
-  };
+  }, []);
 
-  const _handleGetTransactions = async () => {
+  const _handleGetTransactions = useCallback(async () => {
     const fetchedTransactions = await getTransactions();
 
     setTransactions(fetchedTransactions);
-  };
+  }, [getTransactions]);
 
   const addTransaction = async (value, isDebit) => {
     const type = isDebit ? 'debit' : 'credit';
@@ -36,7 +36,7 @@ export function useTransactions() {
 
   useEffect(() => {
     _handleGetTransactions();
-  }, []);
+  }, [_handleGetTransactions]);
 
   return {
     transactions,
