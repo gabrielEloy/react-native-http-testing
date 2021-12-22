@@ -4,7 +4,7 @@ import TotalArea from './totalArea';
 import DescriptionArea from './DescriptionArea';
 import {getTotal} from '../../services/balance';
 import {useTransactions} from '../../hooks/useTransactions';
-import styles from './style'
+import styles from './style';
 
 const Home = () => {
   const {transactions, addTransaction, deleteTransaction} = useTransactions();
