@@ -1,30 +1,23 @@
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
 
-const initialData = [
+const data = [
   {
     value: 365,
     type: 'credit',
     id: 1,
   },
-]
-
-let data = initialData
+];
 
 const endpointMocks = [
   rest.get('http://localhost:3000/transactions', (_req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json(data),
-    );
+    return res(ctx.status(200), ctx.json(data));
   }),
   rest.post('http://localhost:3000/transactions', (_req, res, ctx) => {
-    data.push(_req.body);
-    return res(
-      ctx.status(200),
-      ctx.json(data),
-    );
-  })]
+    console.log(_req.body);
+    return res(ctx.status(200), ctx.json(_req.body));
+  }),
+];
 
 const server = setupServer(
   ...endpointMocks,
@@ -39,17 +32,8 @@ const server = setupServer(
 
 export {server, rest};
 
-let afterEachCounter = 0;
-
 beforeAll(() => server.listen());
 afterAll(() => server.close());
-beforeEach(() => {
-    
-  data = initialData;
-  afterEachCounter += 1
-  console.log(`after each: ${afterEachCounter}`)
-  console.log(data)
-})
 afterEach(() => {
   server.resetHandlers();
 });
