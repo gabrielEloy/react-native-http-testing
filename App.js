@@ -1,8 +1,8 @@
 import React from 'react';
-import Main from './src/pages/main';
+import Home from './src/pages/Home';
 
 const App = () => {
-  return <Main />;
+  return <Home />;
 };
 
 export default App;
