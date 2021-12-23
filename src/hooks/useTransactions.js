@@ -19,24 +19,28 @@ export function useTransactions() {
     setTransactions(fetchedTransactions);
   }, [getTransactions]);
 
+  const addTransactionToState = newTransaction =>
+    setTransactions([newTransaction, ...transactions]);
+  const removeTransaction = id =>
+    setTransactions(transactions.filter(transaction => transaction.id !== id));
+
   const addTransaction = async (value, isDebit) => {
     const type = isDebit ? 'debit' : 'credit';
     const transaction = {
       value,
       type,
     };
-    await axios.post(transactionsUrl, transaction);
-    await _handleGetTransactions();
+    const {data} = await axios.post(transactionsUrl, transaction);
+    addTransactionToState(data);
   };
 
   const deleteTransaction = async id => {
     await axios.delete(`${transactionsUrl}/${id}`);
-    await _handleGetTransactions();
+    removeTransaction(id);
   };
 
   useEffect(() => {
     _handleGetTransactions();
-    console.log('1');
   }, [_handleGetTransactions]);
 
   return {
