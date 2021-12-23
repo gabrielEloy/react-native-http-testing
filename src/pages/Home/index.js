@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView} from 'react-native';
+import {View, SafeAreaView, Text} from 'react-native';
 import TotalArea from './totalArea';
 import DescriptionArea from './DescriptionArea';
 import {getTotal} from '../../services/balance';
@@ -7,7 +7,8 @@ import {useTransactions} from '../../hooks/useTransactions';
 import styles from './style';
 
 const Home = () => {
-  const {transactions, addTransaction, deleteTransaction} = useTransactions();
+  const {transactions, addTransaction, deleteTransaction, isLoading} =
+    useTransactions();
 
   const total = getTotal(transactions);
 
@@ -22,10 +23,16 @@ const Home = () => {
           />
         </View>
         <View style={styles.bodyContainer}>
-          <DescriptionArea
-            deleteTransaction={deleteTransaction}
-            transactions={transactions}
-          />
+          {isLoading ? (
+            <View style={styles.contentArea}>
+              <Text>loading</Text>
+            </View>
+          ) : (
+            <DescriptionArea
+              deleteTransaction={deleteTransaction}
+              transactions={transactions}
+            />
+          )}
         </View>
       </SafeAreaView>
     </View>

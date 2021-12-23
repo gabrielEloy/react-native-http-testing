@@ -6,11 +6,19 @@ const transactionsUrl = `${basePath}/transactions`;
 
 export function useTransactions() {
   const [transactions, setTransactions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getTransactions = useCallback(async () => {
-    const {data} = await axios.get(transactionsUrl);
-
-    return data;
+    try {
+      setIsLoading(true);
+      const {data} = await axios.get(transactionsUrl);
+      return data;
+    } catch (err) {
+      console.error(err);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
   const _handleGetTransactions = useCallback(async () => {
@@ -19,19 +27,38 @@ export function useTransactions() {
     setTransactions(fetchedTransactions);
   }, [getTransactions]);
 
+  const addTransactionToState = newTransaction =>
+    setTransactions([newTransaction, ...transactions]);
+  const removeTransaction = id =>
+    setTransactions(transactions.filter(transaction => transaction.id !== id));
+
   const addTransaction = async (value, isDebit) => {
     const type = isDebit ? 'debit' : 'credit';
-    const transaction = {
-      value,
-      type,
-    };
-    await axios.post(transactionsUrl, transaction);
-    await _handleGetTransactions();
+    setIsLoading(true);
+    try {
+      const transaction = {
+        value,
+        type,
+      };
+      const {data} = await axios.post(transactionsUrl, transaction);
+      addTransactionToState(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const deleteTransaction = async id => {
-    await axios.delete(`${transactionsUrl}/${id}`);
-    await _handleGetTransactions();
+    setIsLoading(true);
+    try {
+      await axios.delete(`${transactionsUrl}/${id}`);
+      removeTransaction(id);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -42,5 +69,6 @@ export function useTransactions() {
     transactions,
     addTransaction,
     deleteTransaction,
+    isLoading,
   };
 }
