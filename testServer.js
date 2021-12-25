@@ -14,7 +14,9 @@ const endpointMocks = [
     return res(ctx.status(200), ctx.json(data));
   }),
   rest.post('http://localhost:3000/transactions', (_req, res, ctx) => {
-    console.log(_req.body);
+    return res(ctx.status(200), ctx.json(_req.body));
+  }),
+  rest.delete('http://localhost:3000/transactions/:id', (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(_req.body));
   }),
 ];
